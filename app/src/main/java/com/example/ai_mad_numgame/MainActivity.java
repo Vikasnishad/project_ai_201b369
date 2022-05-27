@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     int []performance={-1,-1,-1,-1,-1,-1}; //score of a game is updated in this array
     int []score={-1,-1,-1}; //score of each match is updated in this array. A total of three matches in a game
     String operators[]={"+","-","*","/"};
-    int correctButton=0; //which button will have the correct answer (tag of that button)
+    int correctButton=1; //which button will have the correct answer (tag of that button)
     Random random=new Random(); //You will generate randdom alegebra questions
     TextView textView2;
     Button button1,button2,button3,button4;
@@ -69,15 +69,46 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
     }
 
-    public void newMatch() {  //A game is composed of three matches
-
+    public void newMatch() {  
+        //A game is composed of three matches
         int operand1 = random.nextInt(10);
-        int operand2=0;
-        //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
+        int operand2 = random.nextInt(10);
+        int correctButton= random.nextInt(4);
+        int correctAnswer =-100;
         String operator = operators[random.nextInt(4)];
-        textView2.setText(operand1 + operator + operand2);
-
-      // Your code here, to diplay correct and incorrect options on the buttons
+        if (operator.equals("+"))
+            correctAnswer= operand1+operand2;
+        else if (operator.equals("-"))
+            correctAnswer=operand1-operand2;
+        else if (operator.equals("/"))
+            correctAnswer=operand1/operand2;
+        else
+            correctAnswer=operand1*operand2;
+//check is operand2 is not zero; otherwise in case of division-divide by zero error will come
+        if (correctButton==0){
+            button1.setText(correctAnswer+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        if (correctButton==1) {
+            button1.setText(correctAnswer+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        if (correctButton==2) {
+            button1.setText(correctAnswer+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        if (correctButton==3) {
+            button1.setText(correctAnswer+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
 
         if(matchCounter==3){    // if three matches are completed updatee the perfomrance in sharedpreferences
 
@@ -91,11 +122,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
     public int sumOfScore(){
         //Computing the sum of score array, which has the 1 or in each index,depending on correct or incorrect answers
         int sum=0;
-       // your code here
+        for (int i=0;i<score.length;i++){
+            sum=sum+score[i];
+        }
+        // your code here
         return sum;
     }
 
@@ -113,8 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getInterpretation(int [][]dataFrame,double slope){
-       //provide interpretation based on your slope analysis
+        //provide interpretation based on your slope analysis
         // Your code here
-        return "Your Interpretation";
+        if(slope>0 && slope<0.5) return "you are better in studying";
+        else if (slope>0.5) return "You are better than last time";
+        else if (slope<0.5) return "You are not sincere with your studies";
+        else return "Better luck next time>>__201b153";
+        //return "Your Interpretation";
     }
-}
